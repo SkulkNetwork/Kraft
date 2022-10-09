@@ -4,8 +4,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import tk.skulk.kraft.player.KraftOfflinePlayer
 import tk.skulk.kraft.player.KraftPlayer
-import tk.skulk.kraft.player.toKraftOfflinePlayer
-import tk.skulk.kraft.player.toKraftPlayer
+import tk.skulk.kraft.player.toKraft
 import java.io.File
 import java.util.UUID
 
@@ -14,7 +13,7 @@ import org.bukkit.Server as BukkitServer
 @Suppress("unused")
 object Kraft {
     // Skipping Bukkit.setServer() and not exposing Bukkit.getServer() because it's not needed.
-    private val server get() = Bukkit.getServer()
+    private val server = Bukkit.getServer()
 
     /**
      * The de facto plugins directory, generally used for storing plugin jars to be loaded,
@@ -52,7 +51,7 @@ object Kraft {
      *
      * You can think of this as a snapshot of [org.bukkit.Bukkit.getOnlinePlayers].
      */
-    val onlinePlayers: List<KraftPlayer> get() = server.onlinePlayers.map { it.toKraftPlayer() }
+    val onlinePlayers: List<KraftPlayer> get() = server.onlinePlayers.map { it.toKraft() }
 
     /** The maximum amount of players which can be on at the same time. */
     var playerCapacity: Int = server.maxPlayers
@@ -112,7 +111,7 @@ object Kraft {
      * as it may become outdated since players can be added/removed from the whitelist.
      */
     val whitelistedPlayers: List<KraftOfflinePlayer>
-        get() = server.whitelistedPlayers.map { it.toKraftOfflinePlayer() }
+        get() = server.whitelistedPlayers.map { it.toKraft() }
 
     /** Reloads the whitelist from disk. */
     fun reloadWhitelist(): Unit = server.reloadWhitelist()
@@ -165,12 +164,12 @@ object Kraft {
      *
      * **Note:** The [KraftSpawnCategory.MISC] are not considered.
      *
-     * @param category The category of spawn.
+     * @param spawnCategory The category of spawn.
      *
      * @return The default ticks per [KraftSpawnCategory] mobs spawn value.
      */
-    fun getTicksPerSpawnCategory(category: KraftSpawnCategory): Int =
-        server.getTicksPerSpawns(category.bukkitSpawnCategory)
+    fun getTicksPerSpawnCategory(spawnCategory: KraftSpawnCategory): Int =
+        server.getTicksPerSpawns(spawnCategory.bukkitSpawnCategory)
 
     /**
      * Gets a [KraftPlayer] object by the given username. The given name doesn't have to be exact.
@@ -180,11 +179,11 @@ object Kraft {
      * This method will not return objects for players that are
      * offline. You should use [getOfflinePlayerLoose] for this.
      *
-     * @param name The (partial) name to match.
+     * @param match The (partial) name to match.
      *
      * @return An online player if one was found mathing the name, null otherwise.
      */
-    fun getPlayerThatMatches(name: String): KraftPlayer? = server.getPlayer(name)?.toKraftPlayer()
+    fun getPlayerThatMatches(match: String): KraftPlayer? = server.getPlayer(match)?.toKraft()
 
     /**
      * Gets a [KraftPlayer] object by the given username. The given
@@ -195,11 +194,11 @@ object Kraft {
      * This method will not return objects for players that are
      * offline. You should use [getOfflinePlayer] for this.
      *
-     * @param name The name to look up.
+     * @param playerName The name to look up.
      *
      * @return An online player if one was found mathing the name, null otherwise.
      */
-    fun getPlayerNamed(name: String): KraftPlayer? = server.getPlayerExact(name)?.toKraftPlayer()
+    fun getPlayerNamed(playerName: String): KraftPlayer? = server.getPlayerExact(playerName)?.toKraft()
 
     /**
      * Attempts to match any online players with the given name,
@@ -212,11 +211,13 @@ object Kraft {
      *
      * There is no offline counterpart to this method for obvious reasons.
      *
-     * @param name The (partial) name to match.
+     * @param match The (partial) name to match.
+     *
      * @return List of all online players that match the name.
      */
-    fun getPlayersThatMatch(name: String): List<KraftPlayer> =
-        server.matchPlayer(name).map { it.toKraftPlayer() }
+    fun getPlayersThatMatch(match: String): List<KraftPlayer> =
+        server.matchPlayer(match).map { it.toKraft() }
 
-    fun getPlayerWithUUID(uuid: UUID): KraftPlayer? = server.getPlayer(uuid)?.toKraftPlayer()
+    // TODO: continue
+    fun getPlayerWithUUID(uuid: UUID): KraftPlayer? = server.getPlayer(uuid)?.toKraft()
 }
