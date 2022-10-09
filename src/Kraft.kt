@@ -2,13 +2,14 @@ package tk.skulk.kraft
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
-import org.bukkit.Server as BukkitServer
-import tk.skulk.kraft.player.KraftPlayer
-import tk.skulk.kraft.player.toKraftPlayer
 import tk.skulk.kraft.player.KraftOfflinePlayer
+import tk.skulk.kraft.player.KraftPlayer
 import tk.skulk.kraft.player.toKraftOfflinePlayer
+import tk.skulk.kraft.player.toKraftPlayer
 import java.io.File
 import java.util.UUID
+
+import org.bukkit.Server as BukkitServer
 
 @Suppress("unused")
 object Kraft {
@@ -110,8 +111,8 @@ object Kraft {
      * You should **never** store this list for later use (Local variables are fine though),
      * as it may become outdated since players can be added/removed from the whitelist.
      */
-    val whitelistedPlayers: List<KraftOfflinePlayer> get() =
-        server.whitelistedPlayers.map { it.toKraftOfflinePlayer() }
+    val whitelistedPlayers: List<KraftOfflinePlayer>
+        get() = server.whitelistedPlayers.map { it.toKraftOfflinePlayer() }
 
     /** Reloads the whitelist from disk. */
     fun reloadWhitelist(): Unit = server.reloadWhitelist()
@@ -168,7 +169,7 @@ object Kraft {
      *
      * @return The default ticks per [KraftSpawnCategory] mobs spawn value.
      */
-    fun <T: KraftSpawnCategory> getTicksPerSpawnCategory(category: KraftSpawnCategory): Int =
+    fun getTicksPerSpawnCategory(category: KraftSpawnCategory): Int =
         server.getTicksPerSpawns(category.bukkitSpawnCategory)
 
     /**
