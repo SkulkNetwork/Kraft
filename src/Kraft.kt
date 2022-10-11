@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import tk.skulk.kraft.player.KraftOfflinePlayer
 import tk.skulk.kraft.player.KraftPlayer
-import tk.skulk.kraft.player.toKraft
 import java.io.File
 import java.util.UUID
 
@@ -169,7 +168,7 @@ object Kraft {
      * @return The default ticks per [KraftSpawnCategory] mobs spawn value.
      */
     fun getTicksPerSpawnCategory(spawnCategory: KraftSpawnCategory): Int =
-        server.getTicksPerSpawns(spawnCategory.bukkitSpawnCategory)
+        server.getTicksPerSpawns(spawnCategory.bukkit)
 
     /**
      * Gets a [KraftPlayer] object by the given username. The given name doesn't have to be exact.
