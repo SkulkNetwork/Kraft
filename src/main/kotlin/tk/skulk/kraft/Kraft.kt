@@ -2,6 +2,7 @@ package tk.skulk.kraft
 
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import tk.skulk.kraft.enums.KraftSpawnCategory
 import tk.skulk.kraft.player.KraftOfflinePlayer
 import tk.skulk.kraft.player.KraftPlayer
 import java.io.File

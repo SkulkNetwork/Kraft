@@ -1,5 +1,6 @@
 package tk.skulk.kraft
 
+import tk.skulk.kraft.enums.KraftSpawnCategory
 import tk.skulk.kraft.player.KraftOfflinePlayer
 import tk.skulk.kraft.player.KraftPlayer
 import org.bukkit.OfflinePlayer as BukkitOfflinePlayer

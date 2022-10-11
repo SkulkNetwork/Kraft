@@ -1,4 +1,4 @@
-package tk.skulk.kraft
+package tk.skulk.kraft.enums
 
 import org.bukkit.entity.SpawnCategory as BukkitSpawnCategory
 
