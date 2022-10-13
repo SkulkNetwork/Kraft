@@ -259,12 +259,37 @@ object Kraft {
      */
     val worlds: List<KraftWorld> get() = server.worlds.map { it.toKraft() }
 
+    /**
+     * Creates or loads a world with the given [KraftWorldCreator].
+     *
+     * If the world is already loaded, it will return the equivalent [KraftWorld].
+     *
+     * @param worldCreator The world creator.
+     *
+     * @return The newly created or loaded world.
+     */
     fun createWorld(worldCreator: KraftWorldCreator): KraftWorld? =
         server.createWorld(worldCreator.bukkit)?.toKraft()
 
+    /**
+     * Unloads the given world.
+     *
+     * @param world The world to unload.
+     * @param save Whether to save the chunks before unloading.
+     *
+     * @return true if successful, false otherwise.
+     */
     fun unloadWorld(world: KraftWorld, save: Boolean = true): Boolean =
         server.unloadWorld(world.bukkit, save)
 
+    /**
+     * Unloads a world with the given name.
+     *
+     * @param worldName Name of the world to unload.
+     * @param save Whether to save the chunks before unloading.
+     *
+     * @return true if successful, false otherwise.
+     */
     fun unloadWorld(worldName: String, save: Boolean = true): Boolean =
         server.unloadWorld(worldName, save)
 
