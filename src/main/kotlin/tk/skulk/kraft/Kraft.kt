@@ -5,6 +5,8 @@ import org.bukkit.Bukkit
 import tk.skulk.kraft.enums.KraftSpawnCategory
 import tk.skulk.kraft.player.KraftOfflinePlayer
 import tk.skulk.kraft.player.KraftPlayer
+import tk.skulk.kraft.world.KraftWorld
+import tk.skulk.kraft.world.KraftWorldCreator
 import java.io.File
 import java.util.UUID
 
@@ -24,16 +26,16 @@ object Kraft {
      */
     val pluginsFolder: File = server.pluginsFolder
 
-    /** The name of this server. */
+    /** The name of the server. */
     val name: String = server.name
 
-    /** The version of this server. */
+    /** The version of the server. */
     val version: String = server.version
 
-    /** The version of Bukkit this server is running. */
+    /** The version of Bukkit the server is running. */
     val bukkitVersion: String = server.bukkitVersion
 
-    /** The version of Minecraft that this server is running on. */
+    /** The version of Minecraft that the server is running on. */
     val minecraftVersion: String = server.minecraftVersion
 
     /** The message describing the version server is running on. */
@@ -49,7 +51,7 @@ object Kraft {
      * However, you should store this temporarily in a local variable
      * (E.g. in a [KraftCommand.execute]) to avoid multiple calls to this property.
      *
-     * You can think of this as a snapshot of [org.bukkit.Bukkit.getOnlinePlayers].
+     * You can think of this as a snapshot of [Bukkit.getOnlinePlayers].
      */
     val onlinePlayers: List<KraftPlayer> get() = server.onlinePlayers.map { it.toKraft() }
 
@@ -81,10 +83,10 @@ object Kraft {
     /** The max world size in blocks. */
     val maxWorldSize: Int = server.maxWorldSize
 
-    /** Whether this server allows the End or not. */
+    /** Whether the server allows the End or not. */
     val allowsEnd: Boolean = server.allowEnd
 
-    /** Whether this server allows the Nether or not. */
+    /** Whether the server allows the Nether or not. */
     val allowsNether: Boolean = server.allowNether
 
     /** The resource pack URI, or an empty string if not specified. */
@@ -172,7 +174,7 @@ object Kraft {
         server.getTicksPerSpawns(spawnCategory.bukkit)
 
     /**
-     * Gets a [KraftPlayer] object by the given username. The given name doesn't have to be exact.
+     * Gets a [KraftPlayer] by the given username. The given name doesn't have to be exact.
      *
      * E.g: "rGb" might return a player with the name "RGB_Cube".
      *
@@ -186,7 +188,7 @@ object Kraft {
     fun getPlayerThatMatches(match: String): KraftPlayer? = server.getPlayer(match)?.toKraft()
 
     /**
-     * Gets a [KraftPlayer] object by the given username. The given
+     * Gets a [KraftPlayer] by the given username. The given
      * name has to be exact. But it doesn't have to be case-sensitive.
      *
      * E.g: "rgb_Cube" will return a player with the name "RGB_Cube" if that player is online.
@@ -218,6 +220,52 @@ object Kraft {
     fun getPlayersThatMatch(match: String): List<KraftPlayer> =
         server.matchPlayer(match).map { it.toKraft() }
 
-    // TODO: continue
+    /**
+     * Gets a [KraftPlayer] with the given [UUID].
+     *
+     * This method will not return objects for players that are
+     * offline. You should use [getOfflinePlayerWithUUID] for this.
+     *
+     * @param uuid The UUID to look up.
+     *
+     * @return An online player if one was found mathing the [UUID][uuid], null otherwise.
+     */
     fun getPlayerWithUUID(uuid: UUID): KraftPlayer? = server.getPlayer(uuid)?.toKraft()
+
+    /**
+     * Gets the [UUID] of the player currently known as the specified player name.
+     * While in Offline Mode, will return an Offline [UUID] (Never returns null in Offline Mode).
+     *
+     * @param playerName The player name to look up the [UUID] for.
+     *
+     * @return A [UUID], or null if that player name is not registered with Minecraft and the server is in online mode.
+     */
+    fun getPlayerUUIDWithName(playerName: String): UUID? = server.getPlayerUniqueId(playerName)
+
+    // TODO: Flatten out Bukkit.getPluginManager() and Bukkit.getScheduler() and Bukkit.getServicesManager().
+    // TODO: Or maybe don't include them here and move them into KraftPlugin
+
+    /**
+     * An immutable list of all worlds on the server.
+     *
+     * You should **never** store this list for later use, as it may become invalid.
+     * Accessing this in an asynchronous context isn't recommended since a player may
+     * log out at any time making the player you are modifying offline.
+     *
+     * However, you should store this temporarily in a local variable
+     * (E.g. in a [KraftCommand.execute]) to avoid multiple calls to this property.
+     *
+     * You can think of this as a snapshot of [Bukkit.getWorlds].
+     */
+    val worlds: List<KraftWorld> get() = server.worlds.map { it.toKraft() }
+
+    fun createWorld(worldCreator: KraftWorldCreator): KraftWorld? =
+        server.createWorld(worldCreator.bukkit)?.toKraft()
+
+    fun unloadWorld(world: KraftWorld, save: Boolean = true): Boolean =
+        server.unloadWorld(world.bukkit, save)
+
+    fun unloadWorld(worldName: String, save: Boolean = true): Boolean =
+        server.unloadWorld(worldName, save)
+
 }
