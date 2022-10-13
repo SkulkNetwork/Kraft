@@ -3,6 +3,7 @@ package tk.skulk.kraft
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import tk.skulk.kraft.enums.KraftSpawnCategory
+import tk.skulk.kraft.key.KraftKey
 import tk.skulk.kraft.player.KraftOfflinePlayer
 import tk.skulk.kraft.player.KraftPlayer
 import tk.skulk.kraft.world.KraftWorld
@@ -246,7 +247,7 @@ object Kraft {
     // TODO: Or maybe don't include them here and move them into KraftPlugin
 
     /**
-     * An immutable list of all worlds on the server.
+     * An immutable list of all [KraftWorld]s on the server.
      *
      * You should **never** store this list for later use, as it may become invalid.
      * Accessing this in an asynchronous context isn't recommended since a player may
@@ -260,11 +261,11 @@ object Kraft {
     val worlds: List<KraftWorld> get() = server.worlds.map { it.toKraft() }
 
     /**
-     * Creates or loads a world with the given [KraftWorldCreator].
+     * Creates or loads a [KraftWorld] with the given [KraftWorldCreator].
      *
      * If the world is already loaded, it will return the equivalent [KraftWorld].
      *
-     * @param worldCreator The world creator.
+     * @param worldCreator The [KraftWorldCreator] to get the options from.
      *
      * @return The newly created or loaded world.
      */
@@ -272,7 +273,7 @@ object Kraft {
         server.createWorld(worldCreator.bukkit)?.toKraft()
 
     /**
-     * Unloads the given world.
+     * Unloads the given [KraftWorld].
      *
      * @param world The world to unload.
      * @param save Whether to save the chunks before unloading.
@@ -283,9 +284,9 @@ object Kraft {
         server.unloadWorld(world.bukkit, save)
 
     /**
-     * Unloads a world with the given name.
+     * Unloads a [KraftWorld] with the given name.
      *
-     * @param worldName Name of the world to unload.
+     * @param worldName Name of the [KraftWorld] to unload.
      * @param save Whether to save the chunks before unloading.
      *
      * @return true if successful, false otherwise.
@@ -293,4 +294,30 @@ object Kraft {
     fun unloadWorld(worldName: String, save: Boolean = true): Boolean =
         server.unloadWorld(worldName, save)
 
+    /**
+     * Gets a [KraftWorld] by the given name.
+     *
+     * @param worldName The name of the [KraftWorld].
+     *
+     * @return The [KraftWorld] if one exists with the corresponding name, null otherwise.
+     */
+    fun getWorld(worldName: String): KraftWorld? = server.getWorld(worldName)?.toKraft()
+
+    /**
+     * Gets a [KraftWorld] by the given [UUID].
+     *
+     * @param uuid The [UUID] of the [KraftWorld].
+     *
+     * @return The [KraftWorld] if one exists with the corresponding [UUID], null otherwise.
+     */
+    fun getWorld(uuid: UUID): KraftWorld? = server.getWorld(uuid)?.toKraft()
+
+    /**
+     * Gets a [KraftWorld] by the given [KraftKey].
+     *
+     * @param key The [KraftKey] of the [KraftWorld] to retrieve.
+     *
+     * @return The [KraftWorld] if one exists with the corresponding [KraftKey], null otherwise.
+     */
+    fun getWorld(key: KraftKey): KraftWorld? = server.getWorld(key.bukkit)?.toKraft()
 }
