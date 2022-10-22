@@ -3,7 +3,7 @@ name: Bug Report
 description: Report broken or incorrect behaviour.
 
 labels:
-  - bug
+  - unconfirmed bug
 
 body:
   - type: markdown
