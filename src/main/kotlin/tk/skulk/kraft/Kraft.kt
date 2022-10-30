@@ -9,8 +9,7 @@ import tk.skulk.kraft.player.KraftPlayer
 import tk.skulk.kraft.world.KraftWorld
 import tk.skulk.kraft.world.KraftWorldCreator
 import java.io.File
-import java.util.UUID
-
+import java.util.*
 import org.bukkit.Server as BukkitServer
 
 @Suppress("unused")
@@ -129,8 +128,7 @@ object Kraft {
      * @return The number of players the message was broadcasted to.
      */
     fun broadcastMessage(
-        message: String,
-        permission: String = BukkitServer.BROADCAST_CHANNEL_USERS
+        message: String, permission: String = BukkitServer.BROADCAST_CHANNEL_USERS
     ): Int = server.broadcast(Component.text(message), permission)
 
     /**
@@ -143,8 +141,7 @@ object Kraft {
      * @return The number of players the message was broadcasted to.
      */
     fun broadcastMessage(
-        message: Component,
-        permission: String = BukkitServer.BROADCAST_CHANNEL_USERS
+        message: Component, permission: String = BukkitServer.BROADCAST_CHANNEL_USERS
     ): Int = server.broadcast(message, permission)
 
     // Skipping Server.getUpdateFolder() since it provides a String instead of a File.
@@ -201,7 +198,8 @@ object Kraft {
      *
      * @return An online player if one was found mathing the name, null otherwise.
      */
-    fun getPlayerNamed(playerName: String): KraftPlayer? = server.getPlayerExact(playerName)?.toKraft()
+    fun getPlayerNamed(playerName: String): KraftPlayer? =
+        server.getPlayerExact(playerName)?.toKraft()
 
     /**
      * Attempts to match any online players with the given name,
