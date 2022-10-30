@@ -1,5 +1,6 @@
 <project>
     <groupId>tk.skulk.kraft</groupId>
+    <url>kraft.skulk.tk</url>
     <artifactId>Kraft</artifactId>
     <name>Kraft</name>
     <version>0.0.1</version>
@@ -36,7 +37,7 @@
 
     <repositories>
         <repository>
-            <id>central</id>
+            <id>maven-central-repo</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
 
