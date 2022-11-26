@@ -54,7 +54,8 @@ public object Kraft {
      *
      * You can think of this as a snapshot of [Bukkit.getOnlinePlayers].
      */
-    public val onlinePlayers: List<KraftPlayer> get() = server.onlinePlayers.map { it.toKraft() }
+    public val onlinePlayers: List<KraftPlayer>
+        get() = server.onlinePlayers.map { it.toKraft() }
 
     /** The maximum amount of players which can be on at the same time. */
     public var playerCapacity: Int = server.maxPlayers
@@ -184,7 +185,8 @@ public object Kraft {
      *
      * @return An online player if one was found mathing the name, null otherwise.
      */
-    public fun getPlayerThatMatches(match: String): KraftPlayer? = server.getPlayer(match)?.toKraft()
+    public fun getPlayerThatMatches(match: String): KraftPlayer? =
+        server.getPlayer(match)?.toKraft()
 
     /**
      * Gets a [KraftPlayer] by the given username. The given
@@ -240,7 +242,8 @@ public object Kraft {
      *
      * @return A [UUID], or null if that player name is not registered with Minecraft and the server is in online mode.
      */
-    public fun getPlayerUUIDWithName(playerName: String): UUID? = server.getPlayerUniqueId(playerName)
+    public fun getPlayerUUIDWithName(playerName: String): UUID? =
+        server.getPlayerUniqueId(playerName)
 
     // TODO: Flatten out Bukkit.getPluginManager() and Bukkit.getScheduler() and Bukkit.getServicesManager().
     // TODO: Or maybe don't include them here and move them into KraftPlugin
@@ -257,7 +260,8 @@ public object Kraft {
      *
      * You can think of this as a snapshot of [Bukkit.getWorlds].
      */
-    public val worlds: List<KraftWorld> get() = server.worlds.map { it.toKraft() }
+    public val worlds: List<KraftWorld>
+        get() = server.worlds.map { it.toKraft() }
 
     /**
      * Creates or loads a [KraftWorld] with the given [KraftWorldCreator].
