@@ -14,7 +14,6 @@ import java.io.File
 import java.util.*
 import org.bukkit.Server as BukkitServer
 
-@Suppress("unused")
 public object Kraft {
     // Skipping Bukkit.setServer() and not exposing Bukkit.getServer() because it's not needed.
     private val server = Bukkit.getServer()
