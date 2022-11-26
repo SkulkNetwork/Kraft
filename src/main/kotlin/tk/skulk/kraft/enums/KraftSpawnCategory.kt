@@ -2,7 +2,7 @@ package tk.skulk.kraft.enums
 
 import org.bukkit.entity.SpawnCategory as BukkitSpawnCategory
 
-enum class KraftSpawnCategory(val bukkit: BukkitSpawnCategory) {
+public enum class KraftSpawnCategory(public val bukkit: BukkitSpawnCategory) {
     /** Entities related to Monsters. E.g.: Witch, Zombie, Creeper, etc. */
     MONSTER(BukkitSpawnCategory.MONSTER),
 

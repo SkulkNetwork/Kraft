@@ -6,14 +6,16 @@ import tk.skulk.kraft.enums.KraftSpawnCategory
 import tk.skulk.kraft.key.KraftKey
 import tk.skulk.kraft.player.KraftOfflinePlayer
 import tk.skulk.kraft.player.KraftPlayer
+import tk.skulk.kraft.player.toKraft
 import tk.skulk.kraft.world.KraftWorld
 import tk.skulk.kraft.world.KraftWorldCreator
+import tk.skulk.kraft.world.toKraft
 import java.io.File
 import java.util.*
 import org.bukkit.Server as BukkitServer
 
 @Suppress("unused")
-object Kraft {
+public object Kraft {
     // Skipping Bukkit.setServer() and not exposing Bukkit.getServer() because it's not needed.
     private val server = Bukkit.getServer()
 
@@ -24,22 +26,22 @@ object Kraft {
      * Plugins should use [KraftPlugin.dataFolder] rather than traversing this directory manually
      * when determining the location in which to store their data and configuration files.
      */
-    val pluginsFolder: File = server.pluginsFolder
+    public val pluginsFolder: File = server.pluginsFolder
 
     /** The name of the server. */
-    val name: String = server.name
+    public val name: String = server.name
 
     /** The version of the server. */
-    val version: String = server.version
+    public val version: String = server.version
 
     /** The version of Bukkit the server is running. */
-    val bukkitVersion: String = server.bukkitVersion
+    public val bukkitVersion: String = server.bukkitVersion
 
     /** The version of Minecraft that the server is running on. */
-    val minecraftVersion: String = server.minecraftVersion
+    public val minecraftVersion: String = server.minecraftVersion
 
     /** The message describing the version server is running on. */
-    val versionMessage: String by lazy { Bukkit.getVersionMessage() }
+    public val versionMessage: String by lazy { Bukkit.getVersionMessage() }
 
     /**
      * An immutable list of all currently logged in players.
@@ -53,56 +55,56 @@ object Kraft {
      *
      * You can think of this as a snapshot of [Bukkit.getOnlinePlayers].
      */
-    val onlinePlayers: List<KraftPlayer> get() = server.onlinePlayers.map { it.toKraft() }
+    public val onlinePlayers: List<KraftPlayer> get() = server.onlinePlayers.map { it.toKraft() }
 
     /** The maximum amount of players which can be on at the same time. */
-    var playerCapacity: Int = server.maxPlayers
+    public var playerCapacity: Int = server.maxPlayers
         set(value) {
             server.maxPlayers = value
             field = server.maxPlayers
         }
 
     /** The port that the server is running on. */
-    val port: Int = server.port
+    public val port: Int = server.port
 
     /** The view distance of the server. */
-    val viewDistance: Int = server.viewDistance
+    public val viewDistance: Int = server.viewDistance
 
     /** The simulation distance of the server. */
-    val simulationDistance: Int = server.simulationDistance
+    public val simulationDistance: Int = server.simulationDistance
 
     /** The IP address that the server is bound to, or and empty string if not specified. */
-    val ip: String = server.ip
+    public val ip: String = server.ip
 
     /** The world type (Level-type setting) for the default world (e.g. DEFAULT, FLAT, DEFAULT_1_1). */
-    val worldType: String = server.worldType
+    public val worldType: String = server.worldType
 
     /** Whether if the server generates structures. */
-    val generateStructures: Boolean = server.generateStructures
+    public val generateStructures: Boolean = server.generateStructures
 
     /** The max world size in blocks. */
-    val maxWorldSize: Int = server.maxWorldSize
+    public val maxWorldSize: Int = server.maxWorldSize
 
     /** Whether the server allows the End or not. */
-    val allowsEnd: Boolean = server.allowEnd
+    public val allowsEnd: Boolean = server.allowEnd
 
     /** Whether the server allows the Nether or not. */
-    val allowsNether: Boolean = server.allowNether
+    public val allowsNether: Boolean = server.allowNether
 
     /** The resource pack URI, or an empty string if not specified. */
-    val resourcePackUri: String = server.resourcePack
+    public val resourcePackUri: String = server.resourcePack
 
     /** The SHA-1 digest of the server resource pack, or an empty string if not specified. */
-    val resourcePackHash: String = server.resourcePackHash
+    public val resourcePackHash: String = server.resourcePackHash
 
     /**
      * The custom prompt message to be shown when the server resource pack is required,
      * or an empty string if not specified.
      */
-    val resourcePackPrompt: String = server.resourcePackPrompt
+    public val resourcePackPrompt: String = server.resourcePackPrompt
 
     /** Whether the resource pack is enforced. */
-    val resourcePackIsEnforced: Boolean = server.isResourcePackRequired
+    public val resourcePackIsEnforced: Boolean = server.isResourcePackRequired
 
     // TODO: whitelist, whitelistEnforced, wtf?
 
@@ -112,11 +114,11 @@ object Kraft {
      * You should **never** store this list for later use (Local variables are fine though),
      * as it may become outdated since players can be added/removed from the whitelist.
      */
-    val whitelistedPlayers: List<KraftOfflinePlayer>
+    public val whitelistedPlayers: List<KraftOfflinePlayer>
         get() = server.whitelistedPlayers.map { it.toKraft() }
 
     /** Reloads the whitelist from disk. */
-    fun reloadWhitelist(): Unit = server.reloadWhitelist()
+    public fun reloadWhitelist(): Unit = server.reloadWhitelist()
 
     /**
      * Broadcasts a message to all players that have the specified permission.
@@ -127,7 +129,7 @@ object Kraft {
      *
      * @return The number of players the message was broadcasted to.
      */
-    fun broadcastMessage(
+    public fun broadcastMessage(
         message: String, permission: String = BukkitServer.BROADCAST_CHANNEL_USERS
     ): Int = server.broadcast(Component.text(message), permission)
 
@@ -140,17 +142,17 @@ object Kraft {
      *
      * @return The number of players the message was broadcasted to.
      */
-    fun broadcastMessage(
+    public fun broadcastMessage(
         message: Component, permission: String = BukkitServer.BROADCAST_CHANNEL_USERS
     ): Int = server.broadcast(message, permission)
 
     // Skipping Server.getUpdateFolder() since it provides a String instead of a File.
 
     /** The update folder. This used to safely update plugins at the right moment on a plugin load. */
-    val updateFolder: File = server.updateFolderFile
+    public val updateFolder: File = server.updateFolderFile
 
     /** The value of the connection throttle setting. */
-    val connectionThrottle: Long = server.connectionThrottle
+    public val connectionThrottle: Long = server.connectionThrottle
 
     /**
      * Returns the default ticks per [KraftSpawnCategory] spawns value.
@@ -168,7 +170,7 @@ object Kraft {
      *
      * @return The default ticks per [KraftSpawnCategory] mobs spawn value.
      */
-    fun getTicksPerSpawnCategory(spawnCategory: KraftSpawnCategory): Int =
+    public fun getTicksPerSpawnCategory(spawnCategory: KraftSpawnCategory): Int =
         server.getTicksPerSpawns(spawnCategory.bukkit)
 
     /**
@@ -183,7 +185,7 @@ object Kraft {
      *
      * @return An online player if one was found mathing the name, null otherwise.
      */
-    fun getPlayerThatMatches(match: String): KraftPlayer? = server.getPlayer(match)?.toKraft()
+    public fun getPlayerThatMatches(match: String): KraftPlayer? = server.getPlayer(match)?.toKraft()
 
     /**
      * Gets a [KraftPlayer] by the given username. The given
@@ -198,7 +200,7 @@ object Kraft {
      *
      * @return An online player if one was found mathing the name, null otherwise.
      */
-    fun getPlayerNamed(playerName: String): KraftPlayer? =
+    public fun getPlayerNamed(playerName: String): KraftPlayer? =
         server.getPlayerExact(playerName)?.toKraft()
 
     /**
@@ -216,7 +218,7 @@ object Kraft {
      *
      * @return List of all online players that match the name.
      */
-    fun getPlayersThatMatch(match: String): List<KraftPlayer> =
+    public fun getPlayersThatMatch(match: String): List<KraftPlayer> =
         server.matchPlayer(match).map { it.toKraft() }
 
     /**
@@ -229,7 +231,7 @@ object Kraft {
      *
      * @return An online player if one was found mathing the [UUID][uuid], null otherwise.
      */
-    fun getPlayerWithUUID(uuid: UUID): KraftPlayer? = server.getPlayer(uuid)?.toKraft()
+    public fun getPlayerWithUUID(uuid: UUID): KraftPlayer? = server.getPlayer(uuid)?.toKraft()
 
     /**
      * Gets the [UUID] of the player currently known as the specified player name.
@@ -239,7 +241,7 @@ object Kraft {
      *
      * @return A [UUID], or null if that player name is not registered with Minecraft and the server is in online mode.
      */
-    fun getPlayerUUIDWithName(playerName: String): UUID? = server.getPlayerUniqueId(playerName)
+    public fun getPlayerUUIDWithName(playerName: String): UUID? = server.getPlayerUniqueId(playerName)
 
     // TODO: Flatten out Bukkit.getPluginManager() and Bukkit.getScheduler() and Bukkit.getServicesManager().
     // TODO: Or maybe don't include them here and move them into KraftPlugin
@@ -256,7 +258,7 @@ object Kraft {
      *
      * You can think of this as a snapshot of [Bukkit.getWorlds].
      */
-    val worlds: List<KraftWorld> get() = server.worlds.map { it.toKraft() }
+    public val worlds: List<KraftWorld> get() = server.worlds.map { it.toKraft() }
 
     /**
      * Creates or loads a [KraftWorld] with the given [KraftWorldCreator].
@@ -267,7 +269,7 @@ object Kraft {
      *
      * @return The newly created or loaded world.
      */
-    fun createWorld(worldCreator: KraftWorldCreator): KraftWorld? =
+    public fun createWorld(worldCreator: KraftWorldCreator): KraftWorld? =
         server.createWorld(worldCreator.bukkit)?.toKraft()
 
     /**
@@ -278,7 +280,7 @@ object Kraft {
      *
      * @return true if successful, false otherwise.
      */
-    fun unloadWorld(world: KraftWorld, save: Boolean = true): Boolean =
+    public fun unloadWorld(world: KraftWorld, save: Boolean = true): Boolean =
         server.unloadWorld(world.bukkit, save)
 
     /**
@@ -289,7 +291,7 @@ object Kraft {
      *
      * @return true if successful, false otherwise.
      */
-    fun unloadWorld(worldName: String, save: Boolean = true): Boolean =
+    public fun unloadWorld(worldName: String, save: Boolean = true): Boolean =
         server.unloadWorld(worldName, save)
 
     /**
@@ -299,7 +301,7 @@ object Kraft {
      *
      * @return The [KraftWorld] if one exists with the corresponding name, null otherwise.
      */
-    fun getWorld(worldName: String): KraftWorld? = server.getWorld(worldName)?.toKraft()
+    public fun getWorld(worldName: String): KraftWorld? = server.getWorld(worldName)?.toKraft()
 
     /**
      * Gets a [KraftWorld] by the given [UUID].
@@ -308,7 +310,7 @@ object Kraft {
      *
      * @return The [KraftWorld] if one exists with the corresponding [UUID], null otherwise.
      */
-    fun getWorld(uuid: UUID): KraftWorld? = server.getWorld(uuid)?.toKraft()
+    public fun getWorld(uuid: UUID): KraftWorld? = server.getWorld(uuid)?.toKraft()
 
     /**
      * Gets a [KraftWorld] by the given [KraftKey].
@@ -317,5 +319,5 @@ object Kraft {
      *
      * @return The [KraftWorld] if one exists with the corresponding [KraftKey], null otherwise.
      */
-    fun getWorld(key: KraftKey): KraftWorld? = server.getWorld(key.bukkit)?.toKraft()
+    public fun getWorld(key: KraftKey): KraftWorld? = server.getWorld(key.bukkit)?.toKraft()
 }
