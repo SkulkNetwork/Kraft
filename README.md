@@ -1,3 +1,5 @@
+> **Warning** I do not have time to maintain this anymore. If you want to take ownership of this project, contact me on Discord: `RGBCube#4777`.
+
 # Kraft
 
 Kraft is a modern Kotlin wrapper for the Bukkit API.
